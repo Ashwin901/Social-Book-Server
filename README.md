@@ -7,9 +7,7 @@
 3.  Create .env folder in the root of the project
     <ul>
         <li>PORT="Enter the port number here"</li>
-        <li>DATABASE_HOST="Enter database host here"</li>
-        <li>DATABASE_DB="Enter database name here"</li>
-        <li>DATABASE_USER="Enter database user name here"</li>
-        <li>DATABASE_PASSWORD="Enter database password here"</li>
+        <li>MONGODB_URI="Enter MongoDB URI"</li>
+        <li>SECRET="Add any random string here"</li>
     </ul>
 4.  Install `nodemon` and then run `npm run dev`
