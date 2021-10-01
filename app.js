@@ -3,7 +3,7 @@ const cors = require("cors");
 const requestLogger = require("./middleware/request_logger");
 const db = require("./services/database");
 const AuthController = require("./controllers/auth_controller");
-
+const PostController = require("./controllers/post_controller");
 
 const app = express();
 
@@ -20,5 +20,6 @@ app.get("/api", (req, res) => {
 });
 
 app.use("/api/auth", AuthController);
+app.use("/api/post", PostController);
 
 module.exports = app;
