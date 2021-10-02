@@ -10,7 +10,7 @@ PostController.post("/", VerifyToken, async (req, res) => {
 
     Post.create({
         organizationId: organizationId,
-        body: postBody,
+        body: JSON.stringify(postBody),
     }, (e, post) => {
         if (e) {
             return res.status(500).json();
