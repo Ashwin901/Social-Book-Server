@@ -18,7 +18,6 @@ PostController.post("/", VerifyToken, async (req, res) => {
 
         res.status(200).json({
             postId: post._id,
-            body: post.body,
         })
     })
 });
@@ -26,7 +25,7 @@ PostController.post("/", VerifyToken, async (req, res) => {
 PostController.get("/:id", VerifyToken, async (req, res) => {
     try {
         const postId = req.params.id;
-        const post = Post.findById(postId);
+        const post = await Post.findById(postId);
 
         res.status(200).json({
             postId: post._id,
