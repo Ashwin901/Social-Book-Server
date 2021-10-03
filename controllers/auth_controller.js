@@ -9,46 +9,50 @@ AuthController.post("/org/register", (req, res) => {
     const organizationName = req.body.organizationName;
     const organizationEmail = req.body.organizationEmail;
     const password = req.body.password;
+    const organizationAddress = req.body.organizationAddress;
+    const organizationContact = req.body.organizationContact;
 
-    try {
-        const organizationName = req.body.organizationName;
-        const organizationEmail = req.body.organizationEmail;
-        const password = req.body.password;
 
-        const hashedPassword = bcrypt.hashSync(password, 8);
+    const hashedPassword = bcrypt.hashSync(password, 8);
+    console.log(organizationName);
+    console.log(organizationEmail);
+    console.log(password);
+    console.log(organizationAddress);
+    console.log(organizationContact);
 
-        Organization.create(
-            {
-                organizationName: organizationName,
-                organizationEmail: organizationEmail,
-                password: hashedPassword
-            },
-            (err, organization) => {
-                if (err) {
-                    const message =
-                        err.code === 11000
-                            ? "Email already in use"
-                            : "Some error occurred. Please try again";
-                    return res.status(500).json({
-                        auth: false,
-                        message: message,
-                    });
-                }
-
-                const token = generateToken(organization._id);
-                res.status(200).json({
-                    auth: true,
-                    token: token,
-                    organizationId: organization._id,
-                    organizationName: organization.name,
-                    organizationEmail: organization.email,
-                    message: "Registration successful",
+    Organization.create(
+        {
+            organizationName: organizationName,
+            organizationEmail: organizationEmail,
+            password: hashedPassword,
+            organizationAddress: organizationAddress,
+            organizationContact: organizationContact
+        },
+        (err, organization) => {
+            if (err) {
+                const message =
+                    err.code === 11000
+                        ? "Email already in use"
+                        : "Some error occurred. Please try again";
+                return res.status(500).json({
+                    auth: false,
+                    message: message,
                 });
             }
-        );
-    } catch (e) {
-        res.status(500).json({ auth: false, message: "Could not register organization. Please try again" });
-    }
+
+            const token = generateToken(organization._id);
+            res.status(200).json({
+                auth: true,
+                token: token,
+                organizationId: organization._id,
+                organizationName: organization.name,
+                organizationEmail: organization.email,
+                organizationAddress:  organization.address,
+                organizationContact: organization.contact,
+                message: "Registration successful",
+            });
+        }
+    );
 });
 
 AuthController.post("/org/login", async (req, res) => {
@@ -62,7 +66,7 @@ AuthController.post("/org/login", async (req, res) => {
             console.log("No organization found for email");
             return res.status(404).json({ auth: false, message: "No user found" });
         }
-
+        
         const checkPassword = bcrypt.compareSync(password, organization.password);
         if (!checkPassword) {
             console.log("Invalid password");
