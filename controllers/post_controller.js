@@ -26,7 +26,7 @@ PostController.post("/", VerifyToken, async (req, res) => {
 
 PostController.get("/", VerifyToken, async (req, res) => {
     try {
-        const posts = Post.find({});
+        const posts = await Post.find({});
         res.status(200).json(posts);
     } catch (e) {
         res.status(500).json();
