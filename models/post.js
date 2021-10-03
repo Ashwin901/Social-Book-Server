@@ -5,6 +5,10 @@ const PostSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
+    title: {
+        type: String,
+        required: true
+    },
     body: {
         required: true,
         type: String

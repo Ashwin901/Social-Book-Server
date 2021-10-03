@@ -47,7 +47,7 @@ AuthController.post("/org/register", (req, res) => {
                 organizationId: organization._id,
                 organizationName: organization.name,
                 organizationEmail: organization.email,
-                organizationAddress:  organization.address,
+                organizationAddress: organization.address,
                 organizationContact: organization.contact,
                 message: "Registration successful",
             });
@@ -66,7 +66,7 @@ AuthController.post("/org/login", async (req, res) => {
             console.log("No organization found for email");
             return res.status(404).json({ auth: false, message: "No user found" });
         }
-        
+
         const checkPassword = bcrypt.compareSync(password, organization.password);
         if (!checkPassword) {
             console.log("Invalid password");
@@ -114,7 +114,7 @@ AuthController.post('/user/register', async (req, res) => {
             const message = e.code == 11000 ? "User already registered" : "Try again later"
             return res.status(500).json({
                 auth: false,
-                message : message
+                message: message
             })
         }
         const token = generateToken(user._id)
@@ -132,6 +132,7 @@ AuthController.post('/user/register', async (req, res) => {
 AuthController.post('/user/login', async (req, res) => {
     const userEmail = req.body.userEmail
     const password = req.body.password
+
     try {
         const user = await User.findOne({ email: userEmail })
         if (!user) {
@@ -140,7 +141,9 @@ AuthController.post('/user/login', async (req, res) => {
                 auth: false, message: "User not found"
             })
         }
+        console.log(user.password);
         const checkPassword = bcrypt.compareSync(password, user.password)
+
         if (!checkPassword) {
             console.error('Invalid password')
             return res.status(401).json({ auth: false, token: null, message: 'Invalid password' })
@@ -158,7 +161,8 @@ AuthController.post('/user/login', async (req, res) => {
         if (e) {
             console.error('Login error ' + e)
             return res.status(500).json({
-                auth: false, token: null,message: 'Login failed. Try again!'})
+                auth: false, token: null, message: 'Login failed. Try again!'
+            })
         }
     }
 })
