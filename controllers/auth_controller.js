@@ -14,11 +14,6 @@ AuthController.post("/org/register", (req, res) => {
 
 
     const hashedPassword = bcrypt.hashSync(password, 8);
-    console.log(organizationName);
-    console.log(organizationEmail);
-    console.log(password);
-    console.log(organizationAddress);
-    console.log(organizationContact);
 
     Organization.create(
         {
@@ -45,10 +40,10 @@ AuthController.post("/org/register", (req, res) => {
                 auth: true,
                 token: token,
                 organizationId: organization._id,
-                organizationName: organization.name,
-                organizationEmail: organization.email,
-                organizationAddress: organization.address,
-                organizationContact: organization.contact,
+                organizationName: organization.organizationName,
+                organizationEmail: organization.organizationEmail,
+                organizationAddress: organization.organizationAddress,
+                organizationContact: organization.organizationContact,
                 message: "Registration successful",
             });
         }
@@ -76,12 +71,15 @@ AuthController.post("/org/login", async (req, res) => {
         }
 
         const token = generateToken(organization._id);
+        console.log(organization.name);
         res.status(200).json({
             auth: true,
             token: token,
             organizationId: organization._id,
-            organizationName: organization.name,
-            organizationEmail: organization.email,
+            organizationName: organization.organizationName,
+            organizationEmail: organization.organizationEmail,
+            organizationAddress: organization.organizationAddress,
+            organizationContact: organization.organizationContact,
             message: "Login successful",
         });
 
