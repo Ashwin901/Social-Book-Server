@@ -130,18 +130,17 @@ AuthController.post('/user/register', async (req, res) => {
 AuthController.post('/user/login', async (req, res) => {
     const userEmail = req.body.userEmail
     const password = req.body.password
-
     try {
-        const user = await User.findOne({ email: userEmail })
+        const user = await User.findOne({ userEmail: userEmail })
+        console.log(user)
         if (!user) {
             console.error('No user found')
             return res.status(404).json({
                 auth: false, message: "User not found"
             })
         }
-        console.log(user.password);
         const checkPassword = bcrypt.compareSync(password, user.password)
-
+        console.log(checkPassword);
         if (!checkPassword) {
             console.error('Invalid password')
             return res.status(401).json({ auth: false, token: null, message: 'Invalid password' })
