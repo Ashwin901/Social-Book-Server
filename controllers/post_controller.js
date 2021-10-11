@@ -3,7 +3,7 @@ const PostController = express.Router();
 const Post = require("../models/post");
 const { VerifyToken } = require("../middleware/verify_token");
 
-PostController.post("/", VerifyToken, async (req, res) => {
+PostController.post("/",VerifyToken, async (req, res) => {
     
     const organizationId = req.body.organizationId;
     const organizationName = req.body.organizationName;
@@ -28,7 +28,7 @@ PostController.post("/", VerifyToken, async (req, res) => {
     })
 });
 
-PostController.get("/", VerifyToken, async (req, res) => {
+PostController.get("/",VerifyToken, async (req, res) => {
     try {
         const posts = await Post.find({});
         res.status(200).json(posts);
