@@ -101,12 +101,14 @@ AuthController.post('/user/register', async (req, res) => {
     const userName = req.body.userName
     const userEmail = req.body.userEmail
     const password = req.body.password
+    const userContact = req.body.userContact;
 
     const hashedPassword = bcrypt.hashSync(password, 8)
     User.create({
         userName: userName,
         userEmail: userEmail,
         password: hashedPassword,
+        userContact: userContact
     }, (e, user) => {
         if (e) {
             const message = e.code == 11000 ? "User already registered" : "Try again later"
@@ -122,6 +124,7 @@ AuthController.post('/user/register', async (req, res) => {
             userId: user._id,
             userName: user.name,
             userEmail: user.email,
+            userContact: user.userContact,
             message: 'Registration success'
         })
     })
@@ -152,6 +155,7 @@ AuthController.post('/user/login', async (req, res) => {
             userId: user._id,
             userName: user.name,
             userEmail: user.email,
+            userContact: user.userContact,
             message: 'Login successful'
         })
     } catch (e) {
