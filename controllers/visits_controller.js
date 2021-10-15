@@ -13,6 +13,7 @@ VisitsController.post("/", VerifyToken, async (req, res) => {
         },
         (e, visit) => {
             if (e) {
+                console.log(e);
                 res.status(500).json();
             }
 
@@ -21,12 +22,39 @@ VisitsController.post("/", VerifyToken, async (req, res) => {
     );
 });
 
+VisitsController.put("/:id", VerifyToken, async (req, res) => {
+    try {
+        const updatedVisit = req.body;
+        const id = req.params.id;
+        const visit = await Visit.findById(id);
+
+        if (!visit) {
+            res.status(404).json("Visit not found!! Please try again");
+        }
+
+        await visit.updateOne(updatedVisit);
+        res.status(200).json(visit);
+    } catch (e) {
+        res.status(500).json();
+    }
+});
+
 VisitsController.get("/:id", VerifyToken, async (req, res) => {
     // get details of a particular visit
     try {
         const id = req.params.id;
         const visit = await Visit.findById(id);
         res.status(200).json(visit);
+    } catch (e) {
+        res.status(500).json();
+    }
+});
+
+VisitsController.delete("/:id", VerifyToken, async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Visit.deleteOne({ _id: id });
+        res.status(200).json();
     } catch (e) {
         res.status(500).json();
     }
@@ -58,7 +86,6 @@ VisitsController.get("/org/:id", VerifyToken, async (req, res) => {
 VisitsController.get("/name/org", VerifyToken, async (req, res) => {
     try {
         const organizationNames = await Organization.find({}, { organizationName: 1 });
-        console.log(organizationNames);
         res.status(200).json(organizationNames);
     } catch (e) {
         res.status(500).json()

@@ -16,4 +16,21 @@ UserController.get("/:id", VerifyToken, async (req, res) => {
     }
 });
 
+UserController.put("/:id", VerifyToken, async (req, res) => {
+    try{
+        const id = req.params.id;
+        const user = await User.findById(id);
+        const updatedUser = req.body;
+
+        if(!user){
+            res.status(404).json("User not found!! Please try again");
+        }
+
+        await user.updateOne(updatedUser);
+        res.status(200).json(user);
+    }catch(e){
+        res.status(500).json();
+    }
+});
+
 module.exports = UserController;

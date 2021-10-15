@@ -4,12 +4,12 @@ const Organization = require("../models/organization");
 const Post = require("../models/post");
 const { VerifyToken } = require("../middleware/verify_token");
 
-OrganizationController.get("/",VerifyToken, async (req, res) => {
+OrganizationController.get("/", VerifyToken, async (req, res) => {
     try {
-        const orgs = await Organization.find({},{password : 0}) //exclude passwords
+        const orgs = await Organization.find({}, { password: 0 }) //exclude passwords
         res.status(200).json(orgs)
     }
-    catch(e){
+    catch (e) {
         res.status(500).json()
     }
 })
@@ -24,6 +24,23 @@ OrganizationController.get("/:id", VerifyToken, async (req, res) => {
         });
     } catch (e) {
         console.log(e);
+        res.status(500).json();
+    }
+});
+
+OrganizationController.put("/:id", VerifyToken, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const organization = await Organization.findById(id);
+        const updatedOrganization = req.body;
+
+        if (!organization) {
+            res.status(404).json("Organization not found!! Please try again");
+        }
+
+        await organization.updateOne(updatedOrganization);
+        res.status(200).json(organization);
+    } catch (e) {
         res.status(500).json();
     }
 });

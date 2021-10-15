@@ -3,7 +3,7 @@ const AuthController = express.Router();
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../services/authentication");
 const Organization = require("../models/organization");
-const User = require('../models/user');
+const User = require("../models/user");
 
 AuthController.post("/org/register", (req, res) => {
     const organizationName = req.body.organizationName;
@@ -11,7 +11,6 @@ AuthController.post("/org/register", (req, res) => {
     const password = req.body.password;
     const organizationAddress = req.body.organizationAddress;
     const organizationContact = req.body.organizationContact;
-
 
     const hashedPassword = bcrypt.hashSync(password, 8);
 
@@ -21,7 +20,7 @@ AuthController.post("/org/register", (req, res) => {
             organizationEmail: organizationEmail,
             password: hashedPassword,
             organizationAddress: organizationAddress,
-            organizationContact: organizationContact
+            organizationContact: organizationContact,
         },
         (err, organization) => {
             if (err) {
@@ -55,7 +54,9 @@ AuthController.post("/org/login", async (req, res) => {
     const password = req.body.password;
 
     try {
-        const organization = await Organization.findOne({ organizationEmail: organizationEmail });
+        const organization = await Organization.findOne({
+            organizationEmail: organizationEmail,
+        });
 
         if (!organization) {
             console.log("No organization found for email");
@@ -82,7 +83,6 @@ AuthController.post("/org/login", async (req, res) => {
             organizationContact: organization.organizationContact,
             message: "Login successful",
         });
-
     } catch (e) {
         if (e) {
             console.log("Error while logging in user");
@@ -97,75 +97,84 @@ AuthController.post("/org/login", async (req, res) => {
 
 //user schema : userName, userEmail, password
 
-AuthController.post('/user/register', async (req, res) => {
-    const userName = req.body.userName
-    const userEmail = req.body.userEmail
-    const password = req.body.password
+AuthController.post("/user/register", async (req, res) => {
+    const userName = req.body.userName;
+    const userEmail = req.body.userEmail;
+    const password = req.body.password;
     const userContact = req.body.userContact;
 
-    const hashedPassword = bcrypt.hashSync(password, 8)
-    User.create({
-        userName: userName,
-        userEmail: userEmail,
-        password: hashedPassword,
-        userContact: userContact
-    }, (e, user) => {
-        if (e) {
-            const message = e.code == 11000 ? "User already registered" : "Try again later"
-            return res.status(500).json({
-                auth: false,
-                message: message
-            })
+    const hashedPassword = bcrypt.hashSync(password, 8);
+    User.create(
+        {
+            userName: userName,
+            userEmail: userEmail,
+            password: hashedPassword,
+            userContact: userContact,
+        },
+        (e, user) => {
+            if (e) {
+                const message =
+                    e.code == 11000 ? "User already registered" : "Try again later";
+                return res.status(500).json({
+                    auth: false,
+                    message: message,
+                });
+            }
+            const token = generateToken(user._id);
+            res.status(200).json({
+                auth: true,
+                token: token,
+                userId: user._id,
+                userName: user.userName,
+                userEmail: user.userEmail,
+                userContact: user.userContact,
+                message: "Registration success",
+            });
         }
-        const token = generateToken(user._id)
-        res.status(200).json({
-            auth: true,
-            token: token,
-            userId: user._id,
-            userName: user.name,
-            userEmail: user.email,
-            userContact: user.userContact,
-            message: 'Registration success'
-        })
-    })
-})
+    );
+});
 
-AuthController.post('/user/login', async (req, res) => {
-    const userEmail = req.body.userEmail
-    const password = req.body.password
+AuthController.post("/user/login", async (req, res) => {
+    const userEmail = req.body.userEmail;
+    const password = req.body.password;
     try {
-        const user = await User.findOne({ userEmail: userEmail })
-        console.log(user)
+        const user = await User.findOne({ userEmail: userEmail });
+        console.log(user);
         if (!user) {
-            console.error('No user found')
+            console.error("No user found");
             return res.status(404).json({
-                auth: false, message: "User not found"
-            })
+                auth: false,
+                message: "User not found",
+            });
         }
-        const checkPassword = bcrypt.compareSync(password, user.password)
+        const checkPassword = bcrypt.compareSync(password, user.password);
         console.log(checkPassword);
         if (!checkPassword) {
-            console.error('Invalid password')
-            return res.status(401).json({ auth: false, token: null, message: 'Invalid password' })
+            console.error("Invalid password");
+            return res
+                .status(401)
+                .json({ auth: false, token: null, message: "Invalid password" });
         }
-        const token = generateToken(user._id)
+        const token = generateToken(user._id);
         res.status(200).json({
             auth: true,
             token: token,
             userId: user._id,
-            userName: user.name,
-            userEmail: user.email,
+            userName: user.userName,
+            userEmail: user.userEmail,
             userContact: user.userContact,
-            message: 'Login successful'
-        })
+            message: "Login successful",
+        });
     } catch (e) {
         if (e) {
-            console.error('Login error ' + e)
+            console.error("Login error " + e);
             return res.status(500).json({
-                auth: false, token: null, message: 'Login failed. Try again!'
-            })
+                auth: false,
+                token: null,
+                message: "Login failed. Try again!",
+            });
         }
     }
-})
+});
 
 module.exports = AuthController;
