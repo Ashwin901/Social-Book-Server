@@ -3,9 +3,9 @@ const { SECRET } = require("../config");
 
 const generateToken = (id) => {
     const token = jwt.sign({ id: id }, SECRET, {
-        expiresIn: "10h"
+        expiresIn: "1000h"
     });
-
+    
     return token;
 }
 
