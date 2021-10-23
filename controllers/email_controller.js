@@ -33,4 +33,31 @@ EmailController.get("/org/:id", async (req, res) => {
 
 });
 
+EmailController.get("/user/:id", async (req, res) => {
+    try{
+        const token = req.params.id;
+        jwt.verify(token, SECRET, async (err, decoded) => {
+            if (err) {
+                console.log(err);
+                return res
+                    .status(500)
+                    .send({ auth: false, message: "Failed to authenticate token." });
+            }
+
+            const user = await User.findById(decoded.id);
+
+            if (!user) {
+                return res
+                    .status(404)
+                    .send({ auth: false, message: "No user found" });
+            }
+
+            await user.updateOne({ confirmed: true });
+        });
+        res.redirect("http://localhost:3000/user/login");
+    }catch(e){
+        res.status(500).json();
+    }
+});
+
 module.exports = EmailController;

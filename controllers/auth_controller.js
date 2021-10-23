@@ -115,15 +115,8 @@ AuthController.post("/user/register", async (req, res) => {
                 });
             }
             const token = generateToken(user._id);
-            res.status(200).json({
-                auth: true,
-                token: token,
-                userId: user._id,
-                userName: user.userName,
-                userEmail: user.userEmail,
-                userContact: user.userContact,
-                message: "Registration success",
-            });
+            sendConfirmationEmail(token, userEmail, "user");
+            res.status(200).json({});
         }
     );
 });
@@ -157,6 +150,7 @@ AuthController.post("/user/login", async (req, res) => {
             userName: user.userName,
             userEmail: user.userEmail,
             userContact: user.userContact,
+            confirmed: user.confirmed,
             message: "Login successful",
         });
     } catch (e) {
