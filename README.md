@@ -9,5 +9,6 @@
         <li>PORT="Enter the port number here"</li>
         <li>MONGODB_URI="Enter MongoDB URI"</li>
         <li>SECRET="Add any random string here"</li>
+        <li>STRIPE_API_KEY="Add the stripe key here"</li>
     </ul>
 4.  Install `nodemon` and then run `npm run dev`
