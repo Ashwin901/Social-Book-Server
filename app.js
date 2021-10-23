@@ -8,7 +8,8 @@ const OrganizationController = require("./controllers/organization_controller");
 const UserController = require("./controllers/user_controller");
 const VisitsController = require("./controllers/visits_controller");
 const DonationController = require("./controllers/donation_controller");
-const { application } = require("express");
+const verifyEmail = require("./services/verify_email");
+const EmailController = require("./controllers/email_controller");
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/api/post", PostController);
 app.use("/api/org", OrganizationController);
 app.use("/api/user", UserController);
 app.use("/api/visit", VisitsController);
-app.use("/api/donation",DonationController)
+app.use("/api/donation",DonationController);
+app.use("/api/confirm", EmailController);
 
 module.exports = app;

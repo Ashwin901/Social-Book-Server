@@ -22,6 +22,10 @@ const OrganizationSchema = new mongoose.Schema({
         type: String,
         required: true,
         index: { unique: true }
+    },
+    confirmed:{
+        type:Boolean,
+        default:false
     }
 });
 
