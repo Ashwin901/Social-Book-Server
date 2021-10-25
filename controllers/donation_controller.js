@@ -43,7 +43,6 @@ DonationController.get("/org/:id", VerifyToken, async (req, res) => {
     try {
         const orgId = req.params.id
         const donations = await Donation.find({organizationId: orgId})
-        console.log(donations)
         res.status(200).json(donations)
     } catch (err) {
         console.log(err)
