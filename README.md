@@ -1,4 +1,4 @@
-# DOMS-Backend
+# Social Book Server
 
 ### Project Set Up
 
