@@ -37,7 +37,7 @@ AuthController.post("/org/register", (req, res) => {
 
             const token = generateToken(organization._id);
             sendConfirmationEmail(token, organizationEmail, "org");
-            res.status(200).json();
+            res.status(200).json({ organizationId: organization._id });
         }
     );
 });
@@ -116,7 +116,7 @@ AuthController.post("/user/register", async (req, res) => {
             }
             const token = generateToken(user._id);
             sendConfirmationEmail(token, userEmail, "user");
-            res.status(200).json({});
+            res.status(200).json({ userId: user._id });
         }
     );
 });
