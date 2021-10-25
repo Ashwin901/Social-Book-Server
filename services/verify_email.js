@@ -14,11 +14,11 @@ const sendConfirmationEmail = (token, email, type) => {
     const url = `http://localhost:5000/api/confirm/${type}/${token}`;
 
     const message = {
-        from: USER_EMAIL,
+        from: "SOCIAL BOOK",
         to: email,
         subject: "Confirmation Email",
         text: "Please use this link to verify your email",
-        html: `Click on this link <a href=${url}>${url}</a>`
+        html: `Click on this link to verify your email <br/> <a href=${url}>${url}</a>`
     };
 
     transporter.sendMail(message, (err, info) => {
