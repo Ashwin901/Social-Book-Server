@@ -7,7 +7,6 @@ UserController.get("/:id", VerifyToken, async (req, res) => {
     try {
         const userId = req.params.id;
         const user = await User.findById(userId);
-
         res.status(200).json({
             body: user
         });

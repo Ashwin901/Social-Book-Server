@@ -18,9 +18,13 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    userContact: { 
+    userContact: {
         type: String,
         required: true
+    },
+    confirmed: {
+        type: Boolean,
+        default: false
     }
 })
 

@@ -3,6 +3,7 @@ const AuthController = express.Router();
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../services/authentication");
 const Organization = require("../models/organization");
+const { sendConfirmationEmail } = require("../services/verify_email");
 const User = require("../models/user");
 
 AuthController.post("/org/register", (req, res) => {
@@ -35,16 +36,8 @@ AuthController.post("/org/register", (req, res) => {
             }
 
             const token = generateToken(organization._id);
-            res.status(200).json({
-                auth: true,
-                token: token,
-                organizationId: organization._id,
-                organizationName: organization.organizationName,
-                organizationEmail: organization.organizationEmail,
-                organizationAddress: organization.organizationAddress,
-                organizationContact: organization.organizationContact,
-                message: "Registration successful",
-            });
+            sendConfirmationEmail(token, organizationEmail, "org");
+            res.status(200).json();
         }
     );
 });
@@ -72,7 +65,7 @@ AuthController.post("/org/login", async (req, res) => {
         }
 
         const token = generateToken(organization._id);
-        console.log(organization.name);
+
         res.status(200).json({
             auth: true,
             token: token,
@@ -81,6 +74,7 @@ AuthController.post("/org/login", async (req, res) => {
             organizationEmail: organization.organizationEmail,
             organizationAddress: organization.organizationAddress,
             organizationContact: organization.organizationContact,
+            confirmed: organization.confirmed,
             message: "Login successful",
         });
     } catch (e) {
@@ -121,15 +115,8 @@ AuthController.post("/user/register", async (req, res) => {
                 });
             }
             const token = generateToken(user._id);
-            res.status(200).json({
-                auth: true,
-                token: token,
-                userId: user._id,
-                userName: user.userName,
-                userEmail: user.userEmail,
-                userContact: user.userContact,
-                message: "Registration success",
-            });
+            sendConfirmationEmail(token, userEmail, "user");
+            res.status(200).json({});
         }
     );
 });
@@ -163,6 +150,7 @@ AuthController.post("/user/login", async (req, res) => {
             userName: user.userName,
             userEmail: user.userEmail,
             userContact: user.userContact,
+            confirmed: user.confirmed,
             message: "Login successful",
         });
     } catch (e) {
