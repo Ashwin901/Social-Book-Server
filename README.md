@@ -35,5 +35,4 @@
       delete visits, fetch the visits of a particular user/organisation.    
  3.   In the middlewares folder we have:
     * The verify_tokens file which is used to verify tokens while the user is trying to perform actions which require authentication.
-    * hsr
  4. In the models folder we define the schema for user, organisation, visit, post and donations.
