@@ -33,7 +33,6 @@
     * In the visits_controllers file we have functions for creating new visits, update visit details 
       (If the visit does not exist then we return error message), fetch details of a particular visit,
       delete visits, fetch the visits of a particular user/organisation.    
- 3.   In the middlewares folder we have:
-    * The verify_tokens file which is used to verify tokens while the user is trying to perform actions which require authentication.
-    * hsr
+ 3.   In the middlewares folder we have the verify_tokens file which is used to verify tokens while the user is 
+      trying to perform actions which require authentication.
  4. In the models folder we define the schema for user, organisation, visit, post and donations.
