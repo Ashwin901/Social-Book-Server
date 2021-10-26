@@ -2,14 +2,17 @@ const express = require("express");
 const { VerifyToken } = require("../middleware/verify_token");
 const Visit = require("../models/visit");
 const Organization = require("../models/organization");
+const User = require("../models/user");
 const VisitsController = express.Router();
 
 VisitsController.post("/", VerifyToken, async (req, res) => {
     // create new visit
     const visit = req.body;
+    const user = await User.findById(visit.userId , { userName: 1 })
     Visit.create(
         {
-            ...visit
+            ...visit,
+            userName: user.userName
         },
         (e, visit) => {
             if (e) {
