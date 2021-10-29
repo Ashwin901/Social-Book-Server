@@ -25,6 +25,9 @@ const OrganizationSchema = new mongoose.Schema({
     },
     organizationType:{
         type: String,
+    },
+    organizationImage: { 
+        type: String
     }
 });
 
