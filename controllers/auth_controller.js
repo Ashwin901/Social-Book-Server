@@ -11,6 +11,7 @@ AuthController.post("/org/register", (req, res) => {
     const password = req.body.password;
     const organizationAddress = req.body.organizationAddress;
     const organizationContact = req.body.organizationContact;
+    const organizationType = req.body.organizationType;
 
     const hashedPassword = bcrypt.hashSync(password, 8);
 
@@ -21,6 +22,7 @@ AuthController.post("/org/register", (req, res) => {
             password: hashedPassword,
             organizationAddress: organizationAddress,
             organizationContact: organizationContact,
+            organizationType : organizationType,
         },
         (err, organization) => {
             if (err) {
@@ -43,6 +45,7 @@ AuthController.post("/org/register", (req, res) => {
                 organizationEmail: organization.organizationEmail,
                 organizationAddress: organization.organizationAddress,
                 organizationContact: organization.organizationContact,
+                organizationType: organization.organizationType,
                 message: "Registration successful",
             });
         }
@@ -81,6 +84,7 @@ AuthController.post("/org/login", async (req, res) => {
             organizationEmail: organization.organizationEmail,
             organizationAddress: organization.organizationAddress,
             organizationContact: organization.organizationContact,
+            organization:organization.organizationType,
             message: "Login successful",
         });
     } catch (e) {
