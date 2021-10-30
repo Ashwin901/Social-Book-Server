@@ -22,6 +22,12 @@ const OrganizationSchema = new mongoose.Schema({
         type: String,
         required: true,
         index: { unique: true }
+    },
+    organizationType:{
+        type: String,
+    },
+    organizationImage: { 
+        type: String
     }
 });
 

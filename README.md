@@ -15,24 +15,88 @@
 
 ### Project Working
 
-1. In the main folder we have the app.js, config.js and server.js files. The app.js file describes
-   all the routes. The config.js file support  multiple configuration files using NODE_ENV. We also 
-   have controllers, middleware, services and models.
-2. In the controllers folder we have files which handle users' requests and return responses for different routes.
-    * In the auth_controller file we have functions for register and login (for both users and organisation). 
-      In the register function we receive all the details filled by the user. Then we create a record using the data.
-      If there was some error in registration (for e.g. email already in use) we report the error. Otherwise we 
-      generate tokens and return the response.
-    * In the organisation_controller file we have function which can fetch all the organisations, search for an 
-      organisation by id. We can also update the details for a particular organisation. We also have a function 
-      to retrieve all the posts for a particular organisation. In case of any errors we report it.
-    * In the post_controller file we have functions to create new posts, fetch all the posts and fetch a 
-      particular post as well. In case of any error we report the error.
-    * In the user_controller file we have functions to find the user with given id. We also have the option 
-      to update the user details. If the user does not exist then we return error message.
-    * In the visits_controllers file we have functions for creating new visits, update visit details 
-      (If the visit does not exist then we return error message), fetch details of a particular visit,
-      delete visits, fetch the visits of a particular user/organisation.    
- 3.   In the middlewares folder we have the verify_tokens file which is used to verify tokens while the user is 
-      trying to perform actions which require authentication.
- 4. In the models folder we define the schema for user, organisation, visit, post and donations.
+#### 1. Visits
+    i.Creating New Visits:
+      * Entry Point: "/"
+      * Action: Receive data from the front end and create a record in the visits database.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    ii.Update Visit:
+      * Entry Point: "/:id"
+      * Action: Receive data from the front end and check if visit is present in the database. If not then send status codde 404. If present then update the data.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    iii.Get Details of a Visit:
+      * Entry Point: "/:id"
+      * Action: Receive id from the front end and retrieve data.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    iv.Delete a Visit:
+      * Entry Point: "/:id"
+      * Action: Receive id from the front end and delete entry.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    v.Get all the visits of a User:
+      * Entry Point: "/user/:id"
+      * Action: Receive user id from the front end and find all the visits.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    vi.Get all the visits of a Organisation:
+      * Entry Point: "/org/:id"
+      * Action: Receive org id from the front end and find all the visits.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    vii.Get name of Organisations:
+      * Entry Point: "/name/org"
+      * Action: Retrieve all the names from the database.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+
+#### 2. Posts
+    i.Create Posts:
+      * Entry Point: "/"
+      * Receive data from the front-end and create a record in the database.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    ii.Find all the Posts:
+      * Entry Point: "/"
+      * Retrieve all the posts from the database.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    iii.Find Post by id:
+      * Entry Point: "/:id"
+      * Receive id from the front-end and find post.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+
+#### 3. Donation
+    Third Party Service used for payments: Stripe
+    i. Perform Payment:
+      * Entry Point: "/charge"
+      * Action: Receive the credit card token from the stripe frontend. Process the Payment and return the generated message.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    ii. Save Payment:
+      * Entry Point: "/save"
+      * Action: After successful payment save the payment info in the database.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    iii. Get donations of a user:
+      * Entry Point: "/user/:id"
+      * Action: Receive user id from the frontend and find donations by the user.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+    iv. Get donations for an Organisation:
+      * Entry Point: "/org/:id"
+      * Action: Receive org id from the frontend and find donations for the organisation.
+      * Response: If error send status code 500. Otherwise send response with status code 200.
+
+#### 4. Authentication
+    bcryptjs library used for hashing password
+    i.Organisation Register: 
+      * Entry Point: "/org/register"
+      * Action: Recieve data from front-end and then hash the password using bcryptjs.
+        Create record in Organisation database.
+      * Response: If error, then send res status code 500. Otherwise generate token and send res status code 200.
+    ii.Organisation Login: 
+      * Entry Point: "/org/login"
+      * Action: Recieve email and password from front-end and then verify if the email and password entered is correct.If email is invalid send res status code 404.
+        If password entered is incorrect then send res status code 401.
+      * Response: If error, then send res status code 500. Otherwise generate token and send res status code 200.
+    iii.User Register: 
+      * Entry Point: "/user/register"
+      * Action: Recieve data from front-end and then hash the password using bcryptjs.
+        Create record in user database.
+      * Response: If error, then send res status code 500. Otherwise generate token and send res status code 200.
+    iv.User Login: 
+      * Entry Point: "/user/login"
+      * Action: Recieve email and password from front-end and then verify if the email and password entered is correct.If email is invalid send res status code 404.
+        If password entered is incorrect then send res status code 401.
+      * Response: If error, then send res status code 500. Otherwise generate token and send res status code 200.
