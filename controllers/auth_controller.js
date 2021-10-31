@@ -76,11 +76,7 @@ AuthController.post("/org/login", async (req, res) => {
             organizationEmail: organization.organizationEmail,
             organizationAddress: organization.organizationAddress,
             organizationContact: organization.organizationContact,
-<<<<<<< HEAD
             confirmed: organization.confirmed,
-=======
-            organization:organization.organizationType,
->>>>>>> 086e73e81e7777672cd3e73a212baedb42c1910c
             message: "Login successful",
         });
     } catch (e) {
