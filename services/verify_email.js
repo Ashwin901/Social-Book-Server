@@ -14,7 +14,7 @@ const sendConfirmationEmail = (token, email, type) => {
     const url = `http://social-book-server.herokuapp.com/api/confirm/${type}/${token}`;
 
     const message = {
-        from: "SOCIAL BOOK",
+        from: USER_EMAIL,
         to: email,
         subject: "Confirmation Email",
         text: "Please use this link to verify your email",

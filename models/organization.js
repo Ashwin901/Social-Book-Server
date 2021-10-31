@@ -14,18 +14,24 @@ const OrganizationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    organizationAddress: { 
+    organizationAddress: {
         type: String,
         required: true
     },
-    organizationContact: { 
+    organizationContact: {
         type: String,
         required: true,
         index: { unique: true }
     },
-    confirmed:{
-        type:Boolean,
-        default:false
+    confirmed: {
+        type: Boolean,
+        default: false,
+    },
+    organizationType: {
+        type: String,
+    },
+    organizationImage: {
+        type: String
     }
 });
 
