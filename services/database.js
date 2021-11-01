@@ -8,8 +8,10 @@ mongoose
     })
     .then(() => {
         console.log("Connected to mongo db");
+        module.exports = mongoose
     })
     .catch((err) => {
         console.log(err);
         console.log("Error connecting to mongo db");
     });
+

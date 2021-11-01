@@ -19,9 +19,9 @@ PostController.post("/",VerifyToken, async (req, res) => {
         date: postDate
     }, (e, post) => {
         if (e) {
+            console.log(e)
             return res.status(500).json();
         }
-
         res.status(200).json({
             postId: post._id,
         })
@@ -42,7 +42,6 @@ PostController.get("/:id", VerifyToken, async (req, res) => {
     try {
         const postId = req.params.id;
         const post = await Post.findById(postId);
-
         res.status(200).json(post);
     } catch (e) {
         return res.status(500).json({
