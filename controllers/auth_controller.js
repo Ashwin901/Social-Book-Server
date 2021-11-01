@@ -23,7 +23,7 @@ AuthController.post("/org/register", (req, res) => {
             password: hashedPassword,
             organizationAddress: organizationAddress,
             organizationContact: organizationContact,
-            organizationType : organizationType,
+            organizationType: organizationType,
         },
         (err, organization) => {
             if (err) {
@@ -39,7 +39,7 @@ AuthController.post("/org/register", (req, res) => {
 
             const token = generateToken(organization._id);
             sendConfirmationEmail(token, organizationEmail, "org");
-            res.status(200).json();
+            res.status(200).json({ organizationId: organization._id });
         }
     );
 });
