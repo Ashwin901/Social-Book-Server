@@ -5,11 +5,12 @@ A platform to encourage people to help the ones in need.
 
 ## Setup Instructions
 ### Install
+```
 1.  git clone https://github.com/Ashwin901/DOMS-Backend.git
 ```
 ### Configure
-Create a .env file in the root folder with following contents.
 ```
+Create a .env file in the root folder with following contents.
 <ul>
     <li>PORT="Enter the port number here"</li>
     <li>MONGODB_URI="Enter MongoDB URI"</li>
@@ -19,9 +20,10 @@ Create a .env file in the root folder with following contents.
 ```
 
 ### Run
+```
 1.In the root of the folder run `npm install`
 2.Install `nodemon` and then run `npm run dev`
-
+```
 ---
 
 ## Deployments
