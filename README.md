@@ -12,6 +12,7 @@
         <li>STRIPE_API_KEY="Add the stripe key here"</li>
     </ul>
 4.  Install `nodemon` and then run `npm run dev`
+5.  To run test : npm test
 
 ### Project Working
 
