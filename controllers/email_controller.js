@@ -6,6 +6,7 @@ const { SECRET } = require("../config");
 const { sendConfirmationEmail } = require("../services/verify_email");
 const { generateToken } = require("../services/authentication");
 const jwt = require("jsonwebtoken");
+const { CLIENT_URL } = require("../config");
 
 // Verifies organization emails
 EmailController.get("/org/:id", async (req, res) => {
@@ -29,7 +30,7 @@ EmailController.get("/org/:id", async (req, res) => {
 
             await org.updateOne({ confirmed: true });
         });
-        res.redirect("http://localhost:3000/org/login");
+        res.redirect(`${CLIENT_URL}/org/login`);
     } catch (e) {
         res.status(500).json();
     }
@@ -58,7 +59,7 @@ EmailController.get("/user/:id", async (req, res) => {
 
             await user.updateOne({ confirmed: true });
         });
-        res.redirect("http://localhost:3000/user/login");
+        res.redirect(`${CLIENT_URL}/user/login`);
     } catch (e) {
         res.status(500).json();
     }
@@ -66,7 +67,7 @@ EmailController.get("/user/:id", async (req, res) => {
 
 EmailController.get("/resend/org/:id", async (req, res) => {
     try {
-    
+
         const orgId = req.params.id;
 
         const org = await Organization.findById(orgId);

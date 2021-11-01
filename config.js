@@ -6,6 +6,7 @@ const SECRET = process.env.SECRET;
 const STRIPE_API_KEY = process.env.STRIPE_API_KEY;
 const USER_EMAIL = process.env.USER_EMAIL;
 const USER_PASSWORD = process.env.USER_PASSWORD;
+const CLIENT_URL = process.env.CLIENT_URL;
 
 module.exports = {
     PORT,
@@ -13,5 +14,6 @@ module.exports = {
     SECRET,
     STRIPE_API_KEY,
     USER_EMAIL,
-    USER_PASSWORD
+    USER_PASSWORD,
+    CLIENT_URL
 };
