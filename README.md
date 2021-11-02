@@ -1,4 +1,4 @@
-# Social Book
+# Social Book Server
 A platform to encourage people to help the ones in need.
 
 ---
@@ -11,23 +11,35 @@ A platform to encourage people to help the ones in need.
 ### Configure
 ```
 Create a .env file in the root folder with following contents.
-<ul>
-    <li>PORT="Enter the port number here"</li>
-    <li>MONGODB_URI="Enter MongoDB URI"</li>
-    <li>SECRET="Add any random string here"</li>
-    <li>STRIPE_API_KEY="Add the stripe key here"</li>
-</ul>
+
+PORT="Port number"
+MONGODB_URI="MongoDB URI"
+SECRET="Any random string here"
+STRIPE_API_KEY="Stripe key here"
+USER_EMAIL="Email address from which verification email will be sent"
+USER_PASSWORD="User password for the above email address"
+CLIENT_URL="URL of the client side of the application"
 ```
 
 ### Run
 ```
-1.In the root of the folder run `npm install`
-2.Install `nodemon` and then run `npm run dev`
+1.In the root of the folder run  "npm install"
+2.Install `nodemon` and then run "npm run dev"
 ```
 ---
 
 ## Deployments
 
+### Heroku
+1. Install heroku cli and login
+2. Run `heroku create`
+3. If you are hosting the docker container run `heroku stack:set container`
+4. Push the desired branch `git push heroku <branch>:main`
+
+### Running docker container
+1. Build image using `docker build .`
+2. Run container using `docker run -p 5000:5000 <image-name>`
+3. If you want to use a mongo db container instead of cloud mongo database run `docker-compose up -d` (Don't forget to change the Mongo db URI in .env file)
 
 ---
 
